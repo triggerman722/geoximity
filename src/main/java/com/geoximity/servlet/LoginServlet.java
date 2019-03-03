@@ -38,13 +38,13 @@ public void doGet(HttpServletRequest request, HttpServletResponse response)
                     + "&password"
                     + "=" + request.getParameter("pw");
 
-		String requesturl = "https://alpha.mccg.net/oauth2-service/oauth/token";
+		String requesturl = "https://alpha.xxxx.net/oauth2-service/oauth/token";
 		URL url = new URL(requesturl);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true);
  		conn.setInstanceFollowRedirects(false);
 		conn.setRequestMethod("POST");
-		byte[] message = ("internal-service"+":"+"c0c0nut").getBytes("UTF-8");
+		byte[] message = ("internal-service"+":"+"xxxxxxx").getBytes("UTF-8");
 		String encoded = javax.xml.bind.DatatypeConverter.printBase64Binary(message);
 		conn.setRequestProperty("Authorization", "Basic "+encoded);
 		conn.setRequestProperty("charset", "utf-8");
@@ -56,10 +56,10 @@ public void doGet(HttpServletRequest request, HttpServletResponse response)
 		wr.close();
 		Gson gson = new Gson();
 		JsonObject jsonObject = gson.fromJson(new InputStreamReader(conn.getInputStream(), "utf-8"), JsonObject.class);
-		String mccg_token = jsonObject.get("access_token").getAsString();
+		String xxxx_token = jsonObject.get("access_token").getAsString();
 
 		HttpSession session = request.getSession(true);
-                session.setAttribute("mccg_token", mccg_token);
+                session.setAttribute("xxxx_token", xxxx_token);
 
 
 		SearchRequest searchReq = new SearchRequest();
@@ -93,16 +93,16 @@ public void doGet(HttpServletRequest request, HttpServletResponse response)
 		searchSel.key = "loss_loc.longitude";
 		searchReq.searchSelects.add(searchSel);
 
-		requesturl = "https://alpha.mccg.net/search-service/search";
+		requesturl = "https://alpha.xxxx.net/search-service/search";
                 url = new URL(requesturl);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setDoOutput(true);
                 conn.setInstanceFollowRedirects(false);
                 conn.setRequestMethod("POST");
-                conn.setRequestProperty("Authorization", "Bearer "+mccg_token);
+                conn.setRequestProperty("Authorization", "Bearer "+xxxx_token);
                 conn.setRequestProperty("charset", "utf-8");
-                conn.setRequestProperty("Content-Type", "application/mccg.search-v2+json");
-                conn.setRequestProperty("Accept", "application/mccg.search-v2+json");
+                conn.setRequestProperty("Content-Type", "application/xxxx.search-v2+json");
+                conn.setRequestProperty("Accept", "application/xxxx.search-v2+json");
                 conn.setUseCaches(false);
                 wr = new DataOutputStream(conn.getOutputStream());
                 wr.writeBytes(new Gson().toJson(searchReq));
